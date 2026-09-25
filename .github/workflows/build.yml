@@ -19,20 +19,3 @@ jobs:
         with:
           name: DeadzoneTechEditor-win-x64
           path: publish/DeadzoneTechEditor.exe
-
-  release-test-build:
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: DeadzoneTechEditor-win-x64
-          path: release
-      - name: Publish v0.3.0 test EXE
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh release create v0.3.0-rc1 release/DeadzoneTechEditor.exe --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --prerelease --title "Deadzone Tech Editor v0.3.0 test build" --notes "Test build: edits the current Tech inventory entry identified from two player saves. Back up your save, close the game, and confirm the displayed value in game. Supersedes v0.2.0 for testing."
