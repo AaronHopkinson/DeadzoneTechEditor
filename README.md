@@ -25,3 +25,23 @@ Built in C# using WinForms.
 
 Deadzone: Rogue save files are normally located at:
 %LOCALAPPDATA%\Valhalla\Saved\SaveGames
+
+Backup
+The editor automatically creates a backup alongside the selected save:
+YourSave.sav.bak
+
+If anything goes wrong, restore the backup by removing .bak from the filename.
+Compatibility
+Currently tested against the Deadzone: Rogue save format available in September 2026.
+The editor currently relies on known offsets within the save format, so future game updates may require an update to this tool.
+Technical Notes
+The editor:
+- reads the Tech value as a little-endian 32-bit integer
+- modifies the Tech value directly in the save data
+- recalculates the CRC32 checksum covering the save payload
+- writes the corrected checksum back into the save
+- reloads the written file and verifies the checksum before reporting success
+
+Disclaimer
+This is an unofficial fan-made utility and is not affiliated with the developers or publishers of Deadzone: Rogue.
+Always keep backups of your save files
