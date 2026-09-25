@@ -49,7 +49,7 @@ namespace DeadzoneTechEditor
                 return;
             }
 
-            if (!long.TryParse(txtNewTech.Text, out long newTech) || newTech < 0)
+            if (!long.TryParse(txtNewTech.Text, out long newTech) || newTech < 0 || newTech > int.MaxValue)
             {
                 lblStatus.Text = "Enter a valid Tech amount";
                 return;
