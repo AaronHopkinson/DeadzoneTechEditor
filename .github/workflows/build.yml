@@ -5,6 +5,9 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: windows-latest
@@ -19,3 +22,12 @@ jobs:
         with:
           name: DeadzoneTechEditor-win-x64
           path: publish/DeadzoneTechEditor.exe
+      - name: Publish v0.2.0 release
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if ! gh release view v0.2.0 >/dev/null 2>&1; then
+            gh release create v0.2.0 publish/DeadzoneTechEditor.exe --target "$GITHUB_SHA" --title "Deadzone Tech Editor v0.2.0" --notes "Locates persistent Tech totals by name, validates the edited save, and preserves backups. Close the game before editing and keep your original save."
+          fi
